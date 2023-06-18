@@ -1,0 +1,91 @@
+<header>
+  <div class="d-flex p-2">
+    <h3>Book collections</h3>
+    <button
+      type="button"
+      class="btn header-btn d-flex align-items-center;"
+      (click)="onShowBookForm()"
+    >
+      <strong> Show book form / Hide book form </strong>
+    </button>
+  </div>
+</header>
+
+<app-modify-book
+  *ngIf="showBookForm"
+  (addedBookData)="addedBookData($event)"
+  [updatedData]="updatedData"
+></app-modify-book>
+
+<div class="container">
+  <div class="d-flex justify-content-between mt-4">
+    <div class="author-detail">
+      <p class="card-text">
+        <strong>Author name: </strong>
+        <span>{{ authorData?.author }}</span>
+      </p>
+      <p class="card-text">
+        <strong>Birth date: </strong>
+        <span>{{ authorData?.birthday }}</span>
+      </p>
+      <p class="card-text">
+        <strong>Birth place: </strong>
+        <span>{{ authorData?.birthPlace }}</span>
+      </p>
+    </div>
+
+    <div class="filter-content">
+      <div class="ml-2" *ngFor="let data of sortByData">
+        <input
+          class="form-check-input ml-2"
+          type="radio"
+          name="sortBy"
+          id="{{ data.id }}"
+          (change)="onChangeFilter($event.target.value)"
+          [value]="data.id"
+        />
+        <span class="ml-2"> {{ data.name }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrapper">
+    <div class="card" *ngFor="let data of bookData">
+      <img
+        class="card-img"
+        src="{{ data.imageUrl }}"
+        alt="image"
+        height="200"
+      />
+      <div class="card-body">
+        <h5 class="card-title">{{ data.title }}</h5>
+        <p>
+          <strong>Publish link: </strong>
+          <a
+            href="{{ data.purchaseLink }}"
+            target="__blank"
+            class="card-link"
+            >{{ data.purchaseLink }}</a
+          >
+        </p>
+        <p>
+          <strong>Year of publish: </strong>
+          <span class="card-link">{{ data.PublishDate }}</span>
+        </p>
+
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-info" type="button" (click)="onUpdate(data)">
+            Update
+          </button>
+          <button
+            class="btn btn-danger delete-button"
+            type="button"
+            (click)="onDelete(data)"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
